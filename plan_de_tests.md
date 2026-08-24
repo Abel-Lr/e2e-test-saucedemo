@@ -64,6 +64,32 @@ Le troisième écran de **Checkout** étant **CheckoutComplete** dispose d'un se
 4. **Basket** : Faible valeur ajoutée propre. Pas d'affichage du total, actions redondantes avec Inventory et ItemDetail (remove item) : risque non bloquant.
 5. **ItemDetail** : Les fonctionnalités proposées sont toutes accessibles à partir d'autres écrans (Inventory & Basket)
 
+## Données de test
+### Comptes d'authentification
+|        Username         |   Password   |                                                                                             Remarque                                                                                              |
+|:-----------------------:|:------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|      standard_user      | secret_sauce |                                                              Compte référent. Il sert à visualiser le comportement attendu du site.                                                               |
+|     locked_out_user     | secret_sauce |                                                                          Compte bloqué. Il ne peut plus s'authentifier.                                                                           |
+|      problem_user       | secret_sauce | Plusieurs erreurs sur la gestion du panier (ajout / retrait d'items) et l'affichage de la liste des Items ur l'écran Inventory.<br>Il ne peut pas aller plus loin que l'écran CheckoutClientInfo. |
+| performance_glitch_user | secret_sauce |                                                          Compte "laggy". Il consomme plus de ressources pour afficher la page Inventory.                                                          |
+|       error_user        | secret_sauce |                                                                     Il n'arrive pas à aller au bout de la commande des items.                                                                     |
+|       visual_user       | secret_sauce |                                                               Il n'affiche pas ce qui est attendu. Éléments retournés / mal placés.                                                               |
+
+
+### Produits en vente
+La liste des produits en vente est basée sur l'observable du compte `standard_user`.
+
+La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de données de test des écrans Inventory et ItemDetail. Elle ne sert pas de champ de test.
+
+| ID |                Nom                |  Prix  |                                                                              Description                                                                               |                                                Illustration (URL)                                                |
+|:--:|:---------------------------------:|:------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
+| 0  |       Sauce Labs Bike Light       | $9.99  |    A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.     | [Phare avant de vélo de marque "Star Union"](https://www.saucedemo.com/assets/bike-light-1200x1500-DxcZRFOA.jpg) |
+| 1  |      Sauce Labs Bolt T-Shirt      | $15.99 |            Get your testing superhero on with the Sauce Labs bolt T-shirt. From American Apparel, 100% ringspun combed cotton, heather gray with red bolt.             |            [T-Shirt Noir cintré](https://www.saucedemo.com/assets/bolt-shirt-1200x1500-mR0ldpVS.jpg)             |
+| 2  |         Sauce Labs Onesie         | $7.99  |    Rib snap infant onesie for the junior automation engineer in development. Reinforced 3-snap bottom closure, two-needle hemmed sleeved and bottom won't unravel.     |            [Body blanc pour bébé](https://www.saucedemo.com/assets/red-onesie-1200x1500-BrSuq0ic.jpg)            |
+| 3  | Test.allTheThings() T-Shirt (Red) | $15.99 |       This classic Sauce Labs t-shirt is perfect to wear when cozying up to your keyboard to automate a few tests. Super-soft and comfy ringspun combed cotton.        |        [Haut à manches longues, orangé](https://www.saucedemo.com/assets/red-tatt-1200x1500-E-qp6aYf.jpg)        |
+| 4  |        Sauce Labs Backpack        | $29.99 |                 carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.                 |             [Sac à dos noir](https://www.saucedemo.com/assets/sauce-backpack-1200x1500-CjRW-Djj.jpg)             |
+| 5  |     Sauce Labs Fleece Jacket      | $49.99 | It's not every day that you come across a midweight quarter-zip fleece jacket capable of handling everything from a relaxing day outdoors to a busy day at the office. |         [Hoodie en laine grise](https://www.saucedemo.com/assets/sauce-pullover-1200x1500-BfbI-PSd.jpg)          |
+
 ## Matrice de traçabilité
 |       Écran        |                           Compte(s) pertinent(s)                           |  Priorité  |
 |:------------------:|:--------------------------------------------------------------------------:|:----------:|
