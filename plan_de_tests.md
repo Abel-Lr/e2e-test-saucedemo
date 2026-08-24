@@ -65,7 +65,29 @@ Le troisième écran de **Checkout** étant **CheckoutComplete** dispose d'un se
 5. **ItemDetail** : Les fonctionnalités proposées sont toutes accessibles à partir d'autres écrans (Inventory & Basket)
 
 ## Matrice de traçabilité
-[TBD]
+|       Écran        |                           Compte(s) pertinent(s)                           |  Priorité  |
+|:------------------:|:--------------------------------------------------------------------------:|:----------:|
+|       Login        | standard<br>locked_out<br>problem<br>performance_glitch<br>error<br>visual | Très Haute |
+|     Inventory      |        standard<br>problem<br>performance_glitch<br>error<br>visual        |   Haute    |
+|     ItemDetail     |        standard<br>problem<br>performance_glitch<br>error<br>visual        | Très Basse |
+|       Basket       |        standard<br>problem<br>performance_glitch<br>error<br>visual        |   Basse    |
+| CheckoutClientInfo |        standard<br>problem<br>performance_glitch<br>error<br>visual        |  Critique  |
+|  CheckoutOverview  |             standard<br>performance_glitch<br>error<br>visual              |  Critique  |
+|  CheckoutComplete  |                  standard<br>performance_glitch<br>visual                  |  Critique  |
 
 ## Scénarios détaillés par écran
-[TBD]
+### Login
+|                             Scénario                              |                    Compte(s) concerné(s)                     |                              Résultat Attendu                               |
+|:-----------------------------------------------------------------:|:------------------------------------------------------------:|:---------------------------------------------------------------------------:|
+|         Nom d'utilisateur valide<br>Mot de passe correct          | standard<br>problem<br>performance_glitch<br>error<br>visual |                         Redirection vers Inventory                          |
+| Nom d'utilisateur valide<br>Mot de passe correct<br>Compte bloqué |                          locked_out                          |               Message d'erreur informant le blocage du compte               |
+|        Nom d'utilisateur invalide<br>Mot de passe correct         |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
+|        Nom d'utilisateur valide<br>Mot de passe incorrect         |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
+|       Nom d'utilisateur invalide<br>Mot de passe incorrect        |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
+|            Nom d'utilisateur vide<br>Mot de passe vide            |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
+|         Nom d'utilisateur vide<br>Mot de passe incorrect          |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
+|          Nom d'utilisateur vide<br>Mot de passe correct           |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
+|          Nom d'utilisateur invalide<br>Mot de passe vide          |                              *                               |                 Message d'erreur demandant le mot de passe                  |
+|           Nom d'utilisateur valide<br>Mot de passe vide           |                              *                               |                 Message d'erreur demandant le mot de passe                  |
+
+###
