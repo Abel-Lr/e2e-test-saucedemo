@@ -206,3 +206,23 @@ Un tableau par fonctionnalité
 |          Scénario           | Compte(s) concerné(s) |   Résultat Attendu    |
 |:---------------------------:|:---------------------:|:---------------------:|
 | Clic sur "Back to products" |           *           | Renvoi vers Inventory |
+
+### Basket
+#### Consultation du panier
+|               Scénario                | Compte(s) concerné(s) |                        Résultat Attendu                        |
+|:-------------------------------------:|:---------------------:|:--------------------------------------------------------------:|
+|     Affichage des items du panier     |           *           |          Données cohérentes avec les données de test           |
+|    Panier vide (aucun item ajouté)    |           *           |                 Aucun item affiché, écran vide                 |
+| Visualiser item ajouté via ID inconnu |           *           | BUG : Compteur incrémenté, mais aucun item affiché dans Basket |
+
+
+#### Retrait d'un item
+|     Scénario      | Compte(s) concerné(s) |                   Résultat Attendu                    |
+|:-----------------:|:---------------------:|:-----------------------------------------------------:|
+| Clic sur "Remove" |           *           | L'item disparaît de la liste, le panier se décrémente |
+
+#### Navigation
+|           Scénario           | Compte(s) concerné(s) |        Résultat Attendu        |
+|:----------------------------:|:---------------------:|:------------------------------:|
+| Clic sur "Continue Shopping" |           *           |     Renvoi vers Inventory      |
+|     Clic sur "Checkout"      |           *           | Renvoi vers CheckoutClientInfo |
