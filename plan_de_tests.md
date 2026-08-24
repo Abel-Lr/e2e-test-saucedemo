@@ -226,3 +226,98 @@ Un tableau par fonctionnalité
 |:----------------------------:|:---------------------:|:------------------------------:|
 | Clic sur "Continue Shopping" |           *           |     Renvoi vers Inventory      |
 |     Clic sur "Checkout"      |           *           | Renvoi vers CheckoutClientInfo |
+
+### CheckoutClientInfo
+
+#### Validation des champs (standard_user, performance_glitch_user, visual_user)
+| First Name | Last Name | Zip Code |         Résultat Attendu          |
+|:----------:|:---------:|:--------:|:---------------------------------:|
+|    Vide    |   Vide    |   Vide   |   Error: First Name is required   |
+|    Vide    |   Vide    |  Rempli  |   Error: First Name is required   |
+|    Vide    |  Rempli   |   Vide   |   Error: First Name is required   |
+|    Vide    |  Rempli   |  Rempli  |   Error: First Name is required   |
+|   Rempli   |   Vide    |   Vide   |   Error: Last Name is required    |
+|   Rempli   |   Vide    |  Rempli  |   Error: Last Name is required    |
+|   Rempli   |  Rempli   |   Vide   |  Error: Postal Code is required   |
+|   Rempli   |  Rempli   |  Rempli  | Redirection vers CheckoutOverview |
+
+#### Comportements spécifiques par compte
+|      Scénario       | Compte(s) concerné(s) |                                                          Résultat Attendu                                                          |
+|:-------------------:|:---------------------:|:----------------------------------------------------------------------------------------------------------------------------------:|
+| Saisie du Last Name |        problem        | BUG : Chaque caractère tapé dans Last Name remplace First Name<br>Last Name reste vide, validation bloquée "Last Name is required" |
+| Saisie du Last Name |         error         |                           BUG : Last Name reste vide (silencieux) mais redirection vers CheckoutOverview                           |
+
+#### Validation du format Zip Code
+|                     Scénario                      | Compte(s) concerné(s) |                 Résultat Attendu                 |
+|:-------------------------------------------------:|:---------------------:|:------------------------------------------------:|
+| Saisie de caractères non-numériques dans Zip Code |           *           | BUG : Aucune restriction, tout caractère accepté |
+
+### CheckoutOverview
+
+#### Affichage du résumé (comportement standard)
+|              Scénario              |               Compte(s) concerné(s)               |                            Résultat Attendu                             |
+|:----------------------------------:|:-------------------------------------------------:|:-----------------------------------------------------------------------:|
+|   Affichage des items du panier    | standard<br>performance_glitch<br>error<br>visual | Liste cohérente avec le panier : quantité (1), titre, description, prix |
+|     Titre cliquable d'un item      | standard<br>performance_glitch<br>error<br>visual |                   Renvoi vers ItemDetail du bon item                    |
+| Affichage infos paiement/livraison |                         *                         |   "SauceCard #31337" / "Free Pony Express Delivery!" (valeurs fixes)    |
+|        Calcul du sous-total        | standard<br>performance_glitch<br>error<br>visual |                 Somme exacte des prix des items listés                  |
+|         Calcul de la taxe          |                         *                         |                        8% du sous-total affiché                         |
+|          Calcul du total           |                         *                         |                            Sous-total + taxe                            |
+
+#### Comportements spécifiques
+|       Scénario       | Compte(s) concerné(s) |                                                 Résultat Attendu                                                 |
+|:--------------------:|:---------------------:|:----------------------------------------------------------------------------------------------------------------:|
+|   Accès à l'écran    |        problem        |               BUG : Accessible via URL directe (checkout-step-two.html) en contournant ClientInfo                |
+| Calcul du sous-total |        problem        | BUG : Sous-total affiché ne correspond pas à la somme réelle des items listés (observé : double du montant réel) |
+|   Accès à l'écran    |         error         |                                 Accessible normalement, items et prix cohérents                                  |
+
+#### Navigation
+|     Scénario      |          Compte(s) concerné(s)           |                          Résultat Attendu                          |
+|:-----------------:|:----------------------------------------:|:------------------------------------------------------------------:|
+| Clic sur "Cancel" |                    *                     |       Redirection vers Inventory, panier conservé (non vidé)       |
+| Clic sur "Finish" | standard<br>performance_glitch<br>visual |                 Redirection vers CheckoutComplete                  |
+| Clic sur "Finish" |                  error                   | BUG : erreur silencieuse, aucune redirection vers CheckoutComplete |
+
+### CheckoutComplete
+
+#### Affichage de la confirmation
+|        Scénario         |          Compte(s) concerné(s)           |                                                     Résultat Attendu                                                     |
+|:-----------------------:|:----------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|
+| Message de confirmation | standard<br>performance_glitch<br>visual | "Thank you for your order!"<br>"Your order has been dispatched, and will arrive just as fast as the pony can get there!" |
+
+#### Génération du PDF
+|            Scénario            |          Compte(s) concerné(s)           |                                  Résultat Attendu                                   |
+|:------------------------------:|:----------------------------------------:|:-----------------------------------------------------------------------------------:|
+| Contenu du PDF : infos client  | standard<br>performance_glitch<br>visual | Prénom/Nom/Code Postal renseignés à l'étape CheckoutClientInfo présents dans le PDF |
+|     Contenu du PDF : date      | standard<br>performance_glitch<br>visual |                    Date cohérente avec le moment de la commande                     |
+| Contenu du PDF : items et prix | standard<br>performance_glitch<br>visual | Liste des items, prix, sous-total, taxe (8% du ST), total cohérents avec l'Overview |
+
+#### Navigation
+|            Scénario            |          Compte(s) concerné(s)           |               Résultat Attendu                |
+|:------------------------------:|:----------------------------------------:|:---------------------------------------------:|
+| Chargement de CheckoutComplete | standard<br>performance_glitch<br>visual |      Le panier est vidé automatiquement       |
+|      Clic sur "Back Home"      | standard<br>performance_glitch<br>visual | Redirection vers Inventory (panier déjà vide) |
+
+Bon, on regroupe tout ce qu'on avait mis de côté pendant la session. Voici la structure proposée :
+
+### Transverse
+
+#### Accès sans authentification
+|                      Scénario                      | Compte(s) concerné(s) |    Résultat Attendu    |
+|:--------------------------------------------------:|:---------------------:|:----------------------:|
+| Accès direct à une URL protégée sans cookie d'auth |           *           | Redirection vers Login |
+
+#### Menu burger
+|          Scénario           | Compte(s) concerné(s) |                   Résultat Attendu                    |
+|:---------------------------:|:---------------------:|:-----------------------------------------------------:|
+| Ouverture/fermeture du menu |           *           |               Sidebar s'ouvre/se ferme                |
+|    Clic sur "All Items"     |           *           |              Redirection vers Inventory               |
+|      Clic sur "Logout"      |           *           | Suppression du cookie d'auth, redirection vers Login  |
+| Clic sur "Reset App State"  |           *           | Panier vidé, modifications utilisateur réinitialisées |
+
+#### Anomalies visuelles
+|       Élément affecté        | Compte(s) concerné(s) |                                 Résultat Attendu                                 |
+|:----------------------------:|:---------------------:|:--------------------------------------------------------------------------------:|
+|      Bouton menu burger      |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |
+|     Items sur Inventory      |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |
+| Bouton "Checkout" sur Basket |        visual         | BUG : positionné en haut à droite au lieu d'en bas (classe `btn_visual_failure`) |
