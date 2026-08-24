@@ -104,18 +104,18 @@ La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de donné
 
 ## Scénarios détaillés par écran
 ### Login
-|                             Scénario                              |                    Compte(s) concerné(s)                     |                              Résultat Attendu                               |
-|:-----------------------------------------------------------------:|:------------------------------------------------------------:|:---------------------------------------------------------------------------:|
-|         Nom d'utilisateur valide<br>Mot de passe correct          | standard<br>problem<br>performance_glitch<br>error<br>visual |                         Redirection vers Inventory                          |
-| Nom d'utilisateur valide<br>Mot de passe correct<br>Compte bloqué |                          locked_out                          |               Message d'erreur informant le blocage du compte               |
-|        Nom d'utilisateur invalide<br>Mot de passe correct         |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
-|        Nom d'utilisateur valide<br>Mot de passe incorrect         |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
-|       Nom d'utilisateur invalide<br>Mot de passe incorrect        |                              *                               | Message d'erreur informant que le combo des deux identifiants est incorrect |
-|            Nom d'utilisateur vide<br>Mot de passe vide            |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
-|         Nom d'utilisateur vide<br>Mot de passe incorrect          |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
-|          Nom d'utilisateur vide<br>Mot de passe correct           |                              *                               |               Message d'erreur demandant le nom d'utilisateur               |
-|          Nom d'utilisateur invalide<br>Mot de passe vide          |                              *                               |                 Message d'erreur demandant le mot de passe                  |
-|           Nom d'utilisateur valide<br>Mot de passe vide           |                              *                               |                 Message d'erreur demandant le mot de passe                  |
+|                             Scénario                              |                    Compte(s) concerné(s)                     |                                            Résultat Attendu                                             |
+|:-----------------------------------------------------------------:|:------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|
+|         Nom d'utilisateur valide<br>Mot de passe correct          | standard<br>problem<br>performance_glitch<br>error<br>visual |                         Redirection vers Inventory<br>Cookie d'authentification                         |
+| Nom d'utilisateur valide<br>Mot de passe correct<br>Compte bloqué |                          locked_out                          | Message d'erreur informant le blocage du compte<br>BUG : Cookie d'authentification tout de même présent |
+|        Nom d'utilisateur invalide<br>Mot de passe correct         |                              *                               |               Message d'erreur informant que le combo des deux identifiants est incorrect               |
+|        Nom d'utilisateur valide<br>Mot de passe incorrect         |                              *                               |               Message d'erreur informant que le combo des deux identifiants est incorrect               |
+|       Nom d'utilisateur invalide<br>Mot de passe incorrect        |                              *                               |               Message d'erreur informant que le combo des deux identifiants est incorrect               |
+|            Nom d'utilisateur vide<br>Mot de passe vide            |                              *                               |                             Message d'erreur demandant le nom d'utilisateur                             |
+|         Nom d'utilisateur vide<br>Mot de passe incorrect          |                              *                               |                             Message d'erreur demandant le nom d'utilisateur                             |
+|          Nom d'utilisateur vide<br>Mot de passe correct           |                              *                               |                             Message d'erreur demandant le nom d'utilisateur                             |
+|          Nom d'utilisateur invalide<br>Mot de passe vide          |                              *                               |                               Message d'erreur demandant le mot de passe                                |
+|           Nom d'utilisateur valide<br>Mot de passe vide           |                              *                               |                               Message d'erreur demandant le mot de passe                                |
 
 ### Inventory
 *A partir de cet écran, `*` englobe tous les comptes sauf `locked_out_user`, qui ne peut pas avancer depuis le Login.*
@@ -303,9 +303,9 @@ Bon, on regroupe tout ce qu'on avait mis de côté pendant la session. Voici la 
 ### Transverse
 
 #### Accès sans authentification
-|                      Scénario                      | Compte(s) concerné(s) |    Résultat Attendu    |
-|:--------------------------------------------------:|:---------------------:|:----------------------:|
-| Accès direct à une URL protégée sans cookie d'auth |           *           | Redirection vers Login |
+|                      Scénario                      | Compte(s) concerné(s) |                                Résultat Attendu                                |
+|:--------------------------------------------------:|:---------------------:|:------------------------------------------------------------------------------:|
+| Accès direct à une URL protégée sans cookie d'auth |           *           | Redirection vers Login<br>You can only access '/X.html' when you are logged in |
 
 #### Menu burger
 |          Scénario           | Compte(s) concerné(s) |                   Résultat Attendu                    |
