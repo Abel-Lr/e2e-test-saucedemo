@@ -1,4 +1,4 @@
-# Plan de tests du site https://www.saucedemo.com
+# Plan de tests E2E du site https://www.saucedemo.com
 
 ## Contexte et Périmètre
 
@@ -117,4 +117,57 @@ La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de donné
 |          Nom d'utilisateur invalide<br>Mot de passe vide          |                              *                               |                 Message d'erreur demandant le mot de passe                  |
 |           Nom d'utilisateur valide<br>Mot de passe vide           |                              *                               |                 Message d'erreur demandant le mot de passe                  |
 
-###
+### Inventory
+*A partir de cet écran, `*` englobe tous les comptes sauf `locked_out_user`, qui ne peut pas avancer depuis le Login.*
+
+Un tableau par fonctionnalité
+
+#### Chargement de la page
+|            Scénario            |          Compte(s) concerné(s)          |                     Résultat Attendu                      |
+|:------------------------------:|:---------------------------------------:|:---------------------------------------------------------:|
+| Temps de chargement de la page | standard<br>problem<br>error<br>visual  |                   Page chargée < 1 sec                    |
+| Temps de chargement de la page |           performance_glitch            |   BUG : Temps de chargement anormalement élevé > 4 sec    |
+| Affichage de la liste d'items  |                    *                    |              6 Items affichés avec leur prix              |
+| Affichage de la liste d'items  | standard<br>error<br>performance_glitch |     Données des items cohérentes avec celles relevées     |
+| Affichage de la liste d'items  |            problem<br>visual            | BUG : Données des items incohérentes avec celles relevées |
+
+#### Ouverture Sidebar menu
+|                           Scénario                           | Compte(s) concerné(s) |                   Résultat Attendu                    |
+|:------------------------------------------------------------:|:---------------------:|:-----------------------------------------------------:|
+| Clic sur les 3 barres horizontales situées au topleft corner |           *           |                    Sidebar ouverte                    |
+|               Déconnexion par clic sur Logout                |           *           | Suppression du cookie d'auth + redirection vers Login |
+
+#### Tri des items
+|                        Scénario                        | Compte(s) concerné(s) |                                             Résultat Attendu                                              |
+|:------------------------------------------------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------:|
+|              Select + par défaut Tri A-Z               |           *           |                         Obtenir la liste des 6 items triés par ordre alphabétique                         |
+|                     Select Tri Z-A                     |           *           |                   Obtenir la liste des 6 items triés par ordre alphabétique décroissant                   |
+|                  Select Tri High-Low                   |           *           |                     Obtenir la liste des 6 items triés par valeur du prix décroissant                     |
+|                  Select Tri Low-High                   |           *           |                      Obtenir la liste des 6 items triés par valeur du prix croissant                      |
+|          Select qu'importe la méthode de tri           |        problem        |            BUG : Aucun changement de valeur du select, aucun changement de la liste des items             |
+|          Select qu'importe la méthode de tri           |         error         | BUG : Boite d'alerte contenant le message "Sorting is broken! This error has been reported to Backtrace." |
+| Temps de chargement du changement de la méthode de tri |  standard<br>visual   |                                             Affichage < 1 sec                                             |
+| Temps de chargement du changement de la méthode de tri |  performance_glitch   |                                          BUG : Affichage > 4 sec                                          |
+
+#### Ajout / Retrait des items
+|        Scénario        |          Compte(s) concerné(s)           |                          Résultat Attendu                           |
+|:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------:|
+| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |        Le panier s'incrémente<br>Le bouton devient "Remove"         |
+| Clic sur "Add to cart" |             problem<br>error             | BUG : Au moins un item ne répond pas, aucun comportement observable |
+|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual |     Le panier se décrémente<br>Le bouton devient "Add to cart"      |
+|   Clic sur "Remove"    |             problem<br>error             | BUG : Au moins un item ne répond pas, aucun comportement observable |
+
+#### Accès au détail des items
+|             Scénario              |               Compte(s) concerné(s)               |                                   Résultat Attendu                                   |
+|:---------------------------------:|:-------------------------------------------------:|:------------------------------------------------------------------------------------:|
+|    Clic sur le titre d'un item    | standard<br>performance_glitch<br>error<br>visual |         Renvoi vers ItemDetail avec l'ID de l'item en param de l'URL (?id=X)         |
+|    Clic sur le titre d'un item    |                      problem                      | BUG : Renvoi vers ItemDetail d'un autre ID en param de l'URL (?id=X) / un ID inconnu |
+| Clic sur l'illustration d'un item | standard<br>performance_glitch<br>error<br>visual |         Renvoi vers ItemDetail avec l'ID de l'item en param de l'URL (?id=X)         |
+| Clic sur l'illustration d'un item |                      problem                      | BUG : Renvoi vers ItemDetail d'un autre ID en param de l'URL (?id=X) / un ID inconnu |
+
+#### Accès au panier
+|               Scénario                |               Compte(s) concerné(s)                |                          Résultat Attendu                          |
+|:-------------------------------------:|:--------------------------------------------------:|:------------------------------------------------------------------:|
+|      Clic sur l'icône du panier       |                         *                          |                         Renvoi vers Basket                         |
+| Affichage des items ajoutés au panier | standard<br>problem<br>performance_glitch<br>error |               Cohérent avec l'observable d'Inventory               |
+| Affichage des items ajoutés au panier |                       visual                       | BUG : Incohérent avec l'observable d'Inventory (vrai prix affiché) |
