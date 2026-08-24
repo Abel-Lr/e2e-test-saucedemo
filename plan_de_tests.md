@@ -171,3 +171,38 @@ Un tableau par fonctionnalité
 |      Clic sur l'icône du panier       |                         *                          |                         Renvoi vers Basket                         |
 | Affichage des items ajoutés au panier | standard<br>problem<br>performance_glitch<br>error |               Cohérent avec l'observable d'Inventory               |
 | Affichage des items ajoutés au panier |                       visual                       | BUG : Incohérent avec l'observable d'Inventory (vrai prix affiché) |
+
+### ItemDetail
+#### Cohérence des données affichées
+|                Scénario                |                Compte(s) concerné(s)                |                Résultat Attendu                 |
+|:--------------------------------------:|:---------------------------------------------------:|:-----------------------------------------------:|
+|     Affichage du titre selon l'ID      |                          *                          |     Titre cohérent avec les données de test     |
+| Affichage de l'illustration selon l'ID |                          *                          | Illustration cohérente avec les données de test |
+|      Affichage du prix selon l'ID      |                          *                          |     Prix cohérent avec les données de test      |
+| Affichage de la description selon l'ID | standard<br>problem<br>performance_glitch<br>visual | Description cohérente avec les données de test  |
+| Affichage de la description selon l'ID |                        error                        |        BUG : Pas de description affichée        |
+
+#### Ajout / Retrait du panier
+|        Scénario        |          Compte(s) concerné(s)           |                             Résultat Attendu                             |
+|:----------------------:|:----------------------------------------:|:------------------------------------------------------------------------:|
+| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |           Le panier s'incrémente<br>Le bouton devient "Remove"           |
+| Clic sur "Add to cart" |             problem<br>error             | BUG : Au moins un ID d'item ne répond pas, aucun comportement observable |
+|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual |        Le panier se décrémente<br>Le bouton devient "Add to cart"        |
+|   Clic sur "Remove"    |             problem<br>error             | BUG : Au moins un ID d'item ne répond pas, aucun comportement observable |
+
+#### Accès à un ID inconnu
+|          Scénario           |                Compte(s) concerné(s)                |                      Résultat Attendu                      |
+|:---------------------------:|:---------------------------------------------------:|:----------------------------------------------------------:|
+|     Affichage du titre      |                          *                          |                  Affiche "Item not found"                  |
+| Affichage de la description | standard<br>problem<br>performance_glitch<br>visual |           Affiche la description de l'id "Autre"           |
+| Affichage de la description |                        error                        |             BUG : Pas de description affichée              |
+| Affichage de l'illustration |                          *                          |           Affiche l'illustration de l'id "Autre"           |
+|      Affichage du prix      |                          *                          |              Affiche le prix de l'id "Autre"               |
+|   Clic sur "Add to cart"    |                          *                          | BUG : Le panier s'incrémente<br>Le bouton devient "Remove" |
+|      Clic sur "Remove"      |      standard<br>performance_glitch<br>visual       | Le panier se décrémente<br>Le bouton devient "Add to cart" |
+|      Clic sur "Remove"      |                  problem<br>error                   |            BUG : Aucun comportement observable             |
+
+#### Navigation
+|          Scénario           | Compte(s) concerné(s) |   Résultat Attendu    |
+|:---------------------------:|:---------------------:|:---------------------:|
+| Clic sur "Back to products" |           *           | Renvoi vers Inventory |
