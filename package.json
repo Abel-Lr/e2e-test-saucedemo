@@ -1,0 +1,26 @@
+{
+  "name": "e2e-test-saucedemo",
+  "version": "1.0.0",
+  "description": "Tests E2E Playwright du site saucedemo.com",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Abel-Lr/e2e-test-saucedemo.git"
+  },
+  "keywords": [],
+  "author": "Abel-Lr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Abel-Lr/e2e-test-saucedemo/issues"
+  },
+  "homepage": "https://github.com/Abel-Lr/e2e-test-saucedemo#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  }
+}
