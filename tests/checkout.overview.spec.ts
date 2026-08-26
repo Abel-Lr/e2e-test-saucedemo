@@ -1,6 +1,7 @@
 import {test, expect} from "@playwright/test";
 import {CheckoutOverviewPage} from "../pages/CheckoutOverviewPage";
-import {accounts_to_test, setupOverviewCart} from "../fixtures/checkout";
+import {setupOverviewCart} from "../fixtures/checkout";
+import {toTestAfterLogin} from "../fixtures/accounts";
 import {standardUser} from "../fixtures/accounts";
 import {products, TAX} from "../fixtures/products";
 import {extractAmount} from "../utils/parsing";
@@ -67,7 +68,7 @@ test.describe('Résumé de la commande - Comportements spécifiques (manipulatio
 })
 
 test.describe('Résumé de la commande - Exactitude du calcul sur sélection aléatoire pour tous les comptes', () => {
-    for (const account of accounts_to_test)
+    for (const account of toTestAfterLogin)
         test(`${account.username} sous-total, taxe et total corrects avec sélection aléatoire`, async ({page}) => {
             const count = getRandomNumber(1, products.length);
             const selectedProducts = getRandomPick(products, count);
@@ -112,7 +113,7 @@ test.describe('Résumé de commande - Navigation (Annuler / Confirmer)', () => {
         expect(cartAfterCancel).toBe(cartBeforeCancel);
     });
 
-    for (const account of accounts_to_test) {
+    for (const account of toTestAfterLogin) {
         test(`${account.username} - 'Finish' redirige vers CheckoutComplete`, async ({page}) => {
             const selectedProducts = [products[0], products[3], products[5]];
             await setupOverviewCart(page, account, selectedProducts.map(p => p.id));

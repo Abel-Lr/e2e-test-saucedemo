@@ -1,9 +1,10 @@
-import {standardUser, problemUser, performanceGlitchUser, errorUser, visualUser, Account} from "./accounts";
+
 import {Page} from "@playwright/test";
 import {CheckoutClientInfoPage} from "../pages/CheckoutClientInfoPage";
 import {CheckoutOverviewPage} from "../pages/CheckoutOverviewPage";
+import {Account} from "./accounts";
 
-export const accounts_to_test: Account[] = [standardUser, problemUser, performanceGlitchUser, errorUser, visualUser];
+
 
 export interface PDFInvoiceContent {
     orderDate: Date;

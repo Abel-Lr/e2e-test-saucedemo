@@ -54,8 +54,7 @@ graph LR
 #### Flow transverse
 
 Depuis tous les écrans sauf l'écran **Login**, il est possible d'afficher un menu burger proposant un accès à l'écran *
-*Inventory**, un logout renvoyant à l'écran **Login** et une action **Reset App State** qui nettoie le panier et toutes
-les autres modifications appliquées par l'utilisateur par rapport à l'écran chargé.
+*Inventory** et un logout renvoyant à l'écran **Login**.
 
 Comme précisé dans le diagramme ci-dessus, il est possible d'accéder au panier depuis les écrans **Inventory** et *
 *ItemDetail**. Ce sont également par ces deux écrans que le panier peut être rempli. **Inventory** liste la totalité des
@@ -264,10 +263,11 @@ Un tableau par fonctionnalité
 
 #### Navigation
 
-|           Scénario           | Compte(s) concerné(s) |        Résultat Attendu        |
-|:----------------------------:|:---------------------:|:------------------------------:|
-| Clic sur "Continue Shopping" |           *           |     Renvoi vers Inventory      |
-|     Clic sur "Checkout"      |           *           | Renvoi vers CheckoutClientInfo |
+|                Scénario                 | Compte(s) concerné(s) |                                                Résultat Attendu                                                |
+|:---------------------------------------:|:---------------------:|:--------------------------------------------------------------------------------------------------------------:|
+|      Clic sur "Continue Shopping"       |           *           |                                             Renvoi vers Inventory                                              |
+|           Clic sur "Checkout"           |           *           |                                         Renvoi vers CheckoutClientInfo                                         |
+| Clic sur "Checkout" avec un panier vide |           *           | BUG : Le bouton reste actif et redirige normalement vers CheckoutClientInfo, alors qu'aucun item n'est présent |
 
 ### CheckoutClientInfo
 
@@ -366,12 +366,11 @@ Un tableau par fonctionnalité
 
 #### Menu burger
 
-|          Scénario           | Compte(s) concerné(s) |                   Résultat Attendu                    |
-|:---------------------------:|:---------------------:|:-----------------------------------------------------:|
-| Ouverture/fermeture du menu |           *           |               Sidebar s'ouvre/se ferme                |
-|    Clic sur "All Items"     |           *           |              Redirection vers Inventory               |
-|      Clic sur "Logout"      |           *           | Suppression du cookie d'auth, redirection vers Login  |
-| Clic sur "Reset App State"  |           *           | Panier vidé, modifications utilisateur réinitialisées |
+|          Scénario           | Compte(s) concerné(s) |                   Résultat Attendu                   |
+|:---------------------------:|:---------------------:|:----------------------------------------------------:|
+| Ouverture/fermeture du menu |           *           |               Sidebar s'ouvre/se ferme               |
+|    Clic sur "All Items"     |           *           |              Redirection vers Inventory              |
+|      Clic sur "Logout"      |           *           | Suppression du cookie d'auth, redirection vers Login |
 
 #### Anomalies visuelles
 

@@ -19,3 +19,5 @@ export const accounts: Account[] = [
     errorUser,
     visualUser,
 ];
+
+export const toTestAfterLogin: Account[] = [standardUser, problemUser, performanceGlitchUser, errorUser, visualUser];
