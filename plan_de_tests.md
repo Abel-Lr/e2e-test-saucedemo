@@ -265,11 +265,12 @@ Un tableau par fonctionnalité
 |          Calcul du total           |                         *                         |                            Sous-total + taxe                            |
 
 #### Comportements spécifiques
-|       Scénario       | Compte(s) concerné(s) |                                                 Résultat Attendu                                                 |
-|:--------------------:|:---------------------:|:----------------------------------------------------------------------------------------------------------------:|
-|   Accès à l'écran    |        problem        |               BUG : Accessible via URL directe (checkout-step-two.html) en contournant ClientInfo                |
-| Calcul du sous-total |        problem        | BUG : Sous-total affiché ne correspond pas à la somme réelle des items listés (observé : double du montant réel) |
-|   Accès à l'écran    |         error         |                                 Accessible normalement, items et prix cohérents                                  |
+|                                   Scénario                                   | Compte(s) concerné(s) |                                                         Résultat Attendu                                                         |
+|:----------------------------------------------------------------------------:|:---------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
+|                               Accès à l'écran                                |        problem        |                       BUG : Accessible via URL directe (checkout-step-two.html) en contournant ClientInfo                        |
+|                             Calcul du sous-total                             |        problem        |         BUG : Sous-total affiché ne correspond pas à la somme réelle des items listés (observé : double du montant réel)         |
+|                               Accès à l'écran                                |         error         |                                         Accessible normalement, items et prix cohérents                                          |
+| Manipulation LocalStorage<br>Panier contenant un ID dupliqué (ex: [0, 0, 4]) |           *           | BUG : L'item apparaît en double (2 cards distinctes), quantité affichée à 1 sur chacune plutôt qu'une seule card avec quantité 2 |
 
 #### Navigation
 |     Scénario      |          Compte(s) concerné(s)           |                          Résultat Attendu                          |

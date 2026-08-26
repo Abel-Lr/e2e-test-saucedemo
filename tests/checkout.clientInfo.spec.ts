@@ -1,6 +1,6 @@
 import {test, expect} from "@playwright/test";
 import {CheckoutClientInfoPage} from "../pages/CheckoutClientInfoPage";
-import {accounts_to_test, setupCheckoutCart} from "../fixtures/checkout";
+import {accounts_to_test_client_info, setupCheckoutCart} from "../fixtures/checkout";
 import {standardUser} from "../fixtures/accounts";
 
 type ValidationCase = {
@@ -52,8 +52,8 @@ test.describe('Remplissage des informations client - Validation croisée (tous c
     const firstName = 'Abel';
     const lastName = 'Laroussi';
     const zipCode = '69140';
-    for (const account of accounts_to_test) {
-        test(`${account.username} - Saisie et validation du formulaire`, async ({page}) => {
+    for (const account of accounts_to_test_client_info) {
+        test(`${account.username} - saisie et validation du formulaire opérationnelle`, async ({page}) => {
             await setupCheckoutCart(page, account);
             const checkoutClientInfoPage = new CheckoutClientInfoPage(page);
 
@@ -78,7 +78,7 @@ test.describe('Remplissage du code postal - Caractères numériques uniquement (
         {label: 'lettres', value: 'azerty'}
     ]
     for (const testCase of invalidZipCodeCases) {
-        test(`Le code postal rejette les ${testCase.label}`, async ({page}) => {
+        test(`Rejet des ${testCase.label}`, async ({page}) => {
             await setupCheckoutCart(page, standardUser);
             const checkoutClientInfoPage = new CheckoutClientInfoPage(page);
 
@@ -89,7 +89,7 @@ test.describe('Remplissage du code postal - Caractères numériques uniquement (
         })
     }
 
-    test('Le code postal accepte les chiffres', async ({page}) => {
+    test('chiffres acceptés', async ({page}) => {
         await setupCheckoutCart(page, standardUser);
         const checkoutClientInfoPage = new CheckoutClientInfoPage(page);
 
