@@ -150,12 +150,12 @@ Un tableau par fonctionnalité
 | Temps de chargement du changement de la méthode de tri |  performance_glitch   |                                          BUG : Affichage > 4 sec                                          |
 
 #### Ajout / Retrait des items
-|        Scénario        |          Compte(s) concerné(s)           |                          Résultat Attendu                           |
-|:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------:|
-| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |        Le panier s'incrémente<br>Le bouton devient "Remove"         |
-| Clic sur "Add to cart" |             problem<br>error             | BUG : Au moins un item ne répond pas, aucun comportement observable |
-|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual |     Le panier se décrémente<br>Le bouton devient "Add to cart"      |
-|   Clic sur "Remove"    |             problem<br>error             | BUG : Au moins un item ne répond pas, aucun comportement observable |
+|        Scénario        |          Compte(s) concerné(s)           |                                                           Résultat Attendu                                                            |
+|:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|
+| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |    Le panier s'incrémente<br>Le bouton devient "Remove"<br>Le LocalStoage est mis à jour par un tableau des IDs des items ajoutés     |
+| Clic sur "Add to cart" |             problem<br>error             |                                  BUG : Au moins un item ne répond pas, aucun comportement observable                                  |
+|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual | Le panier se décrémente<br>Le bouton devient "Add to cart"<br>Le LocalStoage est mis à jour par un tableau des IDs des items restants |
+|   Clic sur "Remove"    |             problem<br>error             |                                  BUG : Au moins un item ne répond pas, aucun comportement observable                                  |
 
 #### Accès au détail des items
 |             Scénario              |               Compte(s) concerné(s)               |                                   Résultat Attendu                                   |
@@ -183,24 +183,24 @@ Un tableau par fonctionnalité
 | Affichage de la description selon l'ID |                        error                        |        BUG : Pas de description affichée        |
 
 #### Ajout / Retrait du panier
-|        Scénario        |          Compte(s) concerné(s)           |                             Résultat Attendu                             |
-|:----------------------:|:----------------------------------------:|:------------------------------------------------------------------------:|
-| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |           Le panier s'incrémente<br>Le bouton devient "Remove"           |
-| Clic sur "Add to cart" |             problem<br>error             | BUG : Au moins un ID d'item ne répond pas, aucun comportement observable |
-|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual |        Le panier se décrémente<br>Le bouton devient "Add to cart"        |
-|   Clic sur "Remove"    |             problem<br>error             | BUG : Au moins un ID d'item ne répond pas, aucun comportement observable |
+|        Scénario        |          Compte(s) concerné(s)           |                                                           Résultat Attendu                                                            |
+|:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|
+| Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |    Le panier s'incrémente<br>Le bouton devient "Remove"<br>Le LocalStoage est mis à jour par un tableau des IDs des items ajoutés     |
+| Clic sur "Add to cart" |             problem<br>error             |                               BUG : Au moins un ID d'item ne répond pas, aucun comportement observable                                |
+|   Clic sur "Remove"    | standard<br>performance_glitch<br>visual | Le panier se décrémente<br>Le bouton devient "Add to cart"<br>Le LocalStoage est mis à jour par un tableau des IDs des items restants |
+|   Clic sur "Remove"    |             problem<br>error             |                               BUG : Au moins un ID d'item ne répond pas, aucun comportement observable                                |
 
 #### Accès à un ID inconnu
-|          Scénario           |                Compte(s) concerné(s)                |                      Résultat Attendu                      |
-|:---------------------------:|:---------------------------------------------------:|:----------------------------------------------------------:|
-|     Affichage du titre      |                          *                          |                  Affiche "Item not found"                  |
-| Affichage de la description | standard<br>problem<br>performance_glitch<br>visual |           Affiche la description de l'id "Autre"           |
-| Affichage de la description |                        error                        |             BUG : Pas de description affichée              |
-| Affichage de l'illustration |                          *                          |           Affiche l'illustration de l'id "Autre"           |
-|      Affichage du prix      |                          *                          |              Affiche le prix de l'id "Autre"               |
-|   Clic sur "Add to cart"    |                          *                          | BUG : Le panier s'incrémente<br>Le bouton devient "Remove" |
-|      Clic sur "Remove"      |      standard<br>performance_glitch<br>visual       | Le panier se décrémente<br>Le bouton devient "Add to cart" |
-|      Clic sur "Remove"      |                  problem<br>error                   |            BUG : Aucun comportement observable             |
+|          Scénario           |                Compte(s) concerné(s)                |                                                                       Résultat Attendu                                                                       |
+|:---------------------------:|:---------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|     Affichage du titre      |                          *                          |                                                                   Affiche "Item not found"                                                                   |
+| Affichage de la description | standard<br>problem<br>performance_glitch<br>visual |                                                            Affiche la description de l'id "Autre"                                                            |
+| Affichage de la description |                        error                        |                                                              BUG : Pas de description affichée                                                               |
+| Affichage de l'illustration |                          *                          |                                                            Affiche l'illustration de l'id "Autre"                                                            |
+|      Affichage du prix      |                          *                          |                                                               Affiche le prix de l'id "Autre"                                                                |
+|   Clic sur "Add to cart"    |                          *                          | BUG : Le panier s'incrémente<br>Le bouton devient "Remove"<br>Le LocalStoage est mis à jour par un tableau des IDs des items ajoutés avec l'ID fictif en URL |
+|      Clic sur "Remove"      |      standard<br>performance_glitch<br>visual       |            Le panier se décrémente<br>Le bouton devient "Add to cart"<br>Le LocalStoage est mis à jour par un tableau des IDs des items restants             |
+|      Clic sur "Remove"      |                  problem<br>error                   |                                                             BUG : Aucun comportement observable                                                              |
 
 #### Navigation
 |          Scénario           | Compte(s) concerné(s) |   Résultat Attendu    |
@@ -217,9 +217,9 @@ Un tableau par fonctionnalité
 
 
 #### Retrait d'un item
-|     Scénario      | Compte(s) concerné(s) |                   Résultat Attendu                    |
-|:-----------------:|:---------------------:|:-----------------------------------------------------:|
-| Clic sur "Remove" |           *           | L'item disparaît de la liste, le panier se décrémente |
+|     Scénario      | Compte(s) concerné(s) |                                                         Résultat Attendu                                                         |
+|:-----------------:|:---------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
+| Clic sur "Remove" |           *           | L'item disparaît de la liste, le panier se décrémente<br>Le LocalStoage est mis à jour par un tableau des IDs des items restants |
 
 #### Navigation
 |           Scénario           | Compte(s) concerné(s) |        Résultat Attendu        |
