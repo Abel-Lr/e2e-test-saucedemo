@@ -21,6 +21,10 @@
   "homepage": "https://github.com/Abel-Lr/e2e-test-saucedemo#readme",
   "devDependencies": {
     "@playwright/test": "^1.62.1",
-    "@types/node": "^26.2.0"
+    "@types/node": "^26.2.0",
+    "@types/pdf-parse": "^1.1.5"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
   }
 }
