@@ -2,11 +2,13 @@
 
 ## Contexte et Périmètre
 
-Le site sujet aux tests automatisés de bout en bout (E2E) est une plateforme d'e-commerce en ligne à l'adresse https://www.saucedemo.com.
+Le site sujet aux tests automatisés de bout en bout (E2E) est une plateforme d'e-commerce en ligne à l'
+adresse https://www.saucedemo.com.
 
 ### Comptes disponibles
 
 Cette plateforme d'e-commerce a un système d'authentification avec 6 noms de comptes reconnus :
+
 - `standard_user`
 - `locked_out_user`
 - `problem_user`
@@ -18,7 +20,9 @@ Tous les comptes énumérés ci-dessus ont le même mot de passe de connexion :
 `secret_sauce`
 
 ### Écrans disponibles
+
 La plateforme saucedemo propose l'affichage de 5 écrans principaux accessibles par les utilisateurs :
+
 - Login
 - Inventory (Liste de la totalité des items en vente)
 - ItemDetail (Détail d'un item en particulier)
@@ -31,6 +35,7 @@ La plateforme saucedemo propose l'affichage de 5 écrans principaux accessibles 
 ### Flow général attendu
 
 #### Flow "aller"
+
 ```mermaid
 graph LR
     A[Login] -->|Se connecte| B[Inventory]
@@ -47,25 +52,43 @@ graph LR
 ```
 
 #### Flow transverse
-Depuis tous les écrans sauf l'écran **Login**, il est possible d'afficher un menu burger proposant un accès à l'écran **Inventory**, un logout renvoyant à l'écran **Login** et une action **Reset App State** qui nettoie le panier et toutes les autres modifications appliquées par l'utilisateur par rapport à l'écran chargé.
 
-Comme précisé dans le diagramme ci-dessus, il est possible d'accéder au panier depuis les écrans **Inventory** et **ItemDetail**. Ce sont également par ces deux écrans que le panier peut être rempli. **Inventory** liste la totalité des items accompagnés pour chaque card un bouton "Add to cart". L'écran **ItemDetail** possède le même bouton, ajoutant l'item sélectionné au panier. Ce bouton change en "Remove" si l'item est déjà présent dans le panier du client.
+Depuis tous les écrans sauf l'écran **Login**, il est possible d'afficher un menu burger proposant un accès à l'écran *
+*Inventory**, un logout renvoyant à l'écran **Login** et une action **Reset App State** qui nettoie le panier et toutes
+les autres modifications appliquées par l'utilisateur par rapport à l'écran chargé.
 
-L'écran **Basket** possède également le bouton "Remove". En plus de valider le panier et de passer au **Checkout**, il a un bouton "Continue Shopping" qui renvoie vers l'écran **Inventory**.
+Comme précisé dans le diagramme ci-dessus, il est possible d'accéder au panier depuis les écrans **Inventory** et *
+*ItemDetail**. Ce sont également par ces deux écrans que le panier peut être rempli. **Inventory** liste la totalité des
+items accompagnés pour chaque card un bouton "Add to cart". L'écran **ItemDetail** possède le même bouton, ajoutant
+l'item sélectionné au panier. Ce bouton change en "Remove" si l'item est déjà présent dans le panier du client.
+
+L'écran **Basket** possède également le bouton "Remove". En plus de valider le panier et de passer au **Checkout**, il a
+un bouton "Continue Shopping" qui renvoie vers l'écran **Inventory**.
 
 Les trois écrans de **Checkout** ont un bouton **Cancel** ou **Back Home** renvoyant vers l'écran **Inventory**.
 
-Le troisième écran de **Checkout** étant **CheckoutComplete** dispose d'un second bouton permettant de télécharger la facture de la commande effectuée sous format PDF. Le PDF est alors téléchargé chez le client, regroupant les informations client renseignées dans **CheckoutClientInfo**, la date de la commande et le détail de la commande présent dans **CheckoutOverview**.
+Le troisième écran de **Checkout** étant **CheckoutComplete** dispose d'un second bouton permettant de télécharger la
+facture de la commande effectuée sous format PDF. Le PDF est alors téléchargé chez le client, regroupant les
+informations client renseignées dans **CheckoutClientInfo**, la date de la commande et le détail de la commande présent
+dans **CheckoutOverview**.
 
 ## Priorisation des besoins
-1. **Checkout** : L'objectif principal du site est de vendre des produits. Si l'achat côté utilisateur bug, cela pourrait venir de différents facteurs et l'utilisateur ne pensera probablement pas à signaler l'erreur = Risque silencieux + perte côté business invisible au début.
-2. **Login** : La connexion avec un compte fonctionnel est primordiale pour le flow du site et permettre aux utilisateurs d'acheter. Bien que ce besoin soit extrêment prioritaire, il est jugé moins prioritaire que le besoin du Checkout : Risque facilement identifiable (chute de trafic)
+
+1. **Checkout** : L'objectif principal du site est de vendre des produits. Si l'achat côté utilisateur bug, cela
+   pourrait venir de différents facteurs et l'utilisateur ne pensera probablement pas à signaler l'erreur = Risque
+   silencieux + perte côté business invisible au début.
+2. **Login** : La connexion avec un compte fonctionnel est primordiale pour le flow du site et permettre aux
+   utilisateurs d'acheter. Bien que ce besoin soit extrêment prioritaire, il est jugé moins prioritaire que le besoin du
+   Checkout : Risque facilement identifiable (chute de trafic)
 3. **Inventory** : Impact sur la confiance et la décision d'achat. Risque non-bloquant
-4. **Basket** : Faible valeur ajoutée propre. Pas d'affichage du total, actions redondantes avec Inventory et ItemDetail (remove item) : risque non bloquant.
+4. **Basket** : Faible valeur ajoutée propre. Pas d'affichage du total, actions redondantes avec Inventory et
+   ItemDetail (remove item) : risque non bloquant.
 5. **ItemDetail** : Les fonctionnalités proposées sont toutes accessibles à partir d'autres écrans (Inventory & Basket)
 
 ## Données de test
+
 ### Comptes d'authentification
+
 |        Username         |   Password   |                                                                                             Remarque                                                                                              |
 |:-----------------------:|:------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |      standard_user      | secret_sauce |                                                              Compte référent. Il sert à visualiser le comportement attendu du site.                                                               |
@@ -75,11 +98,12 @@ Le troisième écran de **Checkout** étant **CheckoutComplete** dispose d'un se
 |       error_user        | secret_sauce |                                                                     Il n'arrive pas à aller au bout de la commande des items.                                                                     |
 |       visual_user       | secret_sauce |                                                               Il n'affiche pas ce qui est attendu. Éléments retournés / mal placés.                                                               |
 
-
 ### Produits en vente
+
 La liste des produits en vente est basée sur l'observable du compte `standard_user`.
 
-La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de données de test des écrans Inventory et ItemDetail. Elle ne sert pas de champ de test.
+La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de données de test des écrans Inventory et
+ItemDetail. Elle ne sert pas de champ de test.
 
 |  ID   |                Nom                |  Prix  |                                                                                                          Description                                                                                                           |                                                Illustration (URL)                                                |
 |:-----:|:---------------------------------:|:------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------:|
@@ -92,6 +116,7 @@ La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de donné
 | Autre |          ITEM NOT FOUND           |  $√-1  | We're sorry, but your call could not be completed as dialled. Please check your number, and try your call again. If you are in need of assistance, please dial 0 to be connected with an operator. This is a recording. 4 T 1. |                [Chien récupérant la balle](https://www.saucedemo.com/assets/sl-404-Cq1a9k9X.jpg)                 |
 
 ## Matrice de traçabilité
+
 |       Écran        |                           Compte(s) pertinent(s)                           |  Priorité  |
 |:------------------:|:--------------------------------------------------------------------------:|:----------:|
 |       Login        | standard<br>locked_out<br>problem<br>performance_glitch<br>error<br>visual | Très Haute |
@@ -103,7 +128,9 @@ La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de donné
 |  CheckoutComplete  |                  standard<br>performance_glitch<br>visual                  |  Critique  |
 
 ## Scénarios détaillés par écran
+
 ### Login
+
 |                             Scénario                              |                    Compte(s) concerné(s)                     |                                            Résultat Attendu                                             |
 |:-----------------------------------------------------------------:|:------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------:|
 |         Nom d'utilisateur valide<br>Mot de passe correct          | standard<br>problem<br>performance_glitch<br>error<br>visual |                         Redirection vers Inventory<br>Cookie d'authentification                         |
@@ -118,11 +145,13 @@ La colonne d'ID permet uniquement d'éviter les doublons pour les jeux de donné
 |           Nom d'utilisateur valide<br>Mot de passe vide           |                              *                               |                               Message d'erreur demandant le mot de passe                                |
 
 ### Inventory
+
 *A partir de cet écran, `*` englobe tous les comptes sauf `locked_out_user`, qui ne peut pas avancer depuis le Login.*
 
 Un tableau par fonctionnalité
 
 #### Chargement de la page
+
 |            Scénario            |          Compte(s) concerné(s)          |                     Résultat Attendu                      |
 |:------------------------------:|:---------------------------------------:|:---------------------------------------------------------:|
 | Temps de chargement de la page | standard<br>problem<br>error<br>visual  |                   Page chargée < 1 sec                    |
@@ -132,12 +161,14 @@ Un tableau par fonctionnalité
 | Affichage de la liste d'items  |            problem<br>visual            | BUG : Données des items incohérentes avec celles relevées |
 
 #### Ouverture Sidebar menu
+
 |                           Scénario                           | Compte(s) concerné(s) |                   Résultat Attendu                    |
 |:------------------------------------------------------------:|:---------------------:|:-----------------------------------------------------:|
 | Clic sur les 3 barres horizontales situées au topleft corner |           *           |                    Sidebar ouverte                    |
 |               Déconnexion par clic sur Logout                |           *           | Suppression du cookie d'auth + redirection vers Login |
 
 #### Tri des items
+
 |                        Scénario                        | Compte(s) concerné(s) |                                             Résultat Attendu                                              |
 |:------------------------------------------------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------:|
 |              Select + par défaut Tri A-Z               |           *           |                         Obtenir la liste des 6 items triés par ordre alphabétique                         |
@@ -150,6 +181,7 @@ Un tableau par fonctionnalité
 | Temps de chargement du changement de la méthode de tri |  performance_glitch   |                                          BUG : Affichage > 4 sec                                          |
 
 #### Ajout / Retrait des items
+
 |        Scénario        |          Compte(s) concerné(s)           |                                                           Résultat Attendu                                                            |
 |:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|
 | Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |    Le panier s'incrémente<br>Le bouton devient "Remove"<br>Le LocalStoage est mis à jour par un tableau des IDs des items ajoutés     |
@@ -158,6 +190,7 @@ Un tableau par fonctionnalité
 |   Clic sur "Remove"    |             problem<br>error             |                                  BUG : Au moins un item ne répond pas, aucun comportement observable                                  |
 
 #### Accès au détail des items
+
 |             Scénario              |               Compte(s) concerné(s)               |                                   Résultat Attendu                                   |
 |:---------------------------------:|:-------------------------------------------------:|:------------------------------------------------------------------------------------:|
 |    Clic sur le titre d'un item    | standard<br>performance_glitch<br>error<br>visual |         Renvoi vers ItemDetail avec l'ID de l'item en param de l'URL (?id=X)         |
@@ -166,6 +199,7 @@ Un tableau par fonctionnalité
 | Clic sur l'illustration d'un item |                      problem                      | BUG : Renvoi vers ItemDetail d'un autre ID en param de l'URL (?id=X) / un ID inconnu |
 
 #### Accès au panier
+
 |               Scénario                |               Compte(s) concerné(s)                |                          Résultat Attendu                          |
 |:-------------------------------------:|:--------------------------------------------------:|:------------------------------------------------------------------:|
 |      Clic sur l'icône du panier       |                         *                          |                         Renvoi vers Basket                         |
@@ -173,7 +207,9 @@ Un tableau par fonctionnalité
 | Affichage des items ajoutés au panier |                       visual                       | BUG : Incohérent avec l'observable d'Inventory (vrai prix affiché) |
 
 ### ItemDetail
+
 #### Cohérence des données affichées
+
 |                Scénario                |                Compte(s) concerné(s)                |                Résultat Attendu                 |
 |:--------------------------------------:|:---------------------------------------------------:|:-----------------------------------------------:|
 |     Affichage du titre selon l'ID      |                          *                          |     Titre cohérent avec les données de test     |
@@ -183,6 +219,7 @@ Un tableau par fonctionnalité
 | Affichage de la description selon l'ID |                        error                        |        BUG : Pas de description affichée        |
 
 #### Ajout / Retrait du panier
+
 |        Scénario        |          Compte(s) concerné(s)           |                                                           Résultat Attendu                                                            |
 |:----------------------:|:----------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------:|
 | Clic sur "Add to cart" | standard<br>performance_glitch<br>visual |    Le panier s'incrémente<br>Le bouton devient "Remove"<br>Le LocalStoage est mis à jour par un tableau des IDs des items ajoutés     |
@@ -191,6 +228,7 @@ Un tableau par fonctionnalité
 |   Clic sur "Remove"    |             problem<br>error             |                               BUG : Au moins un ID d'item ne répond pas, aucun comportement observable                                |
 
 #### Accès à un ID inconnu
+
 |          Scénario           |                Compte(s) concerné(s)                |                                                                       Résultat Attendu                                                                       |
 |:---------------------------:|:---------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |     Affichage du titre      |                          *                          |                                                                   Affiche "Item not found"                                                                   |
@@ -203,25 +241,29 @@ Un tableau par fonctionnalité
 |      Clic sur "Remove"      |                  problem<br>error                   |                                                             BUG : Aucun comportement observable                                                              |
 
 #### Navigation
+
 |          Scénario           | Compte(s) concerné(s) |   Résultat Attendu    |
 |:---------------------------:|:---------------------:|:---------------------:|
 | Clic sur "Back to products" |           *           | Renvoi vers Inventory |
 
 ### Basket
+
 #### Consultation du panier
+
 |               Scénario                | Compte(s) concerné(s) |                        Résultat Attendu                        |
 |:-------------------------------------:|:---------------------:|:--------------------------------------------------------------:|
 |     Affichage des items du panier     |           *           |          Données cohérentes avec les données de test           |
 |    Panier vide (aucun item ajouté)    |           *           |                 Aucun item affiché, écran vide                 |
 | Visualiser item ajouté via ID inconnu |           *           | BUG : Compteur incrémenté, mais aucun item affiché dans Basket |
 
-
 #### Retrait d'un item
+
 |     Scénario      | Compte(s) concerné(s) |                                                         Résultat Attendu                                                         |
 |:-----------------:|:---------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
 | Clic sur "Remove" |           *           | L'item disparaît de la liste, le panier se décrémente<br>Le LocalStoage est mis à jour par un tableau des IDs des items restants |
 
 #### Navigation
+
 |           Scénario           | Compte(s) concerné(s) |        Résultat Attendu        |
 |:----------------------------:|:---------------------:|:------------------------------:|
 | Clic sur "Continue Shopping" |           *           |     Renvoi vers Inventory      |
@@ -230,6 +272,7 @@ Un tableau par fonctionnalité
 ### CheckoutClientInfo
 
 #### Validation des champs (standard_user, performance_glitch_user, visual_user)
+
 | First Name | Last Name | Zip Code |         Résultat Attendu          |
 |:----------:|:---------:|:--------:|:---------------------------------:|
 |    Vide    |   Vide    |   Vide   |   Error: First Name is required   |
@@ -242,12 +285,14 @@ Un tableau par fonctionnalité
 |   Rempli   |  Rempli   |  Rempli  | Redirection vers CheckoutOverview |
 
 #### Comportements spécifiques par compte
+
 |      Scénario       | Compte(s) concerné(s) |                                                          Résultat Attendu                                                          |
 |:-------------------:|:---------------------:|:----------------------------------------------------------------------------------------------------------------------------------:|
 | Saisie du Last Name |        problem        | BUG : Chaque caractère tapé dans Last Name remplace First Name<br>Last Name reste vide, validation bloquée "Last Name is required" |
 | Saisie du Last Name |         error         |                           BUG : Last Name reste vide (silencieux) mais redirection vers CheckoutOverview                           |
 
 #### Validation du format Zip Code
+
 |                     Scénario                      | Compte(s) concerné(s) |                 Résultat Attendu                 |
 |:-------------------------------------------------:|:---------------------:|:------------------------------------------------:|
 | Saisie de caractères non-numériques dans Zip Code |           *           | BUG : Aucune restriction, tout caractère accepté |
@@ -255,6 +300,7 @@ Un tableau par fonctionnalité
 ### CheckoutOverview
 
 #### Affichage du résumé (comportement standard)
+
 |              Scénario              |               Compte(s) concerné(s)               |                            Résultat Attendu                             |
 |:----------------------------------:|:-------------------------------------------------:|:-----------------------------------------------------------------------:|
 |   Affichage des items du panier    | standard<br>performance_glitch<br>error<br>visual | Liste cohérente avec le panier : quantité (1), titre, description, prix |
@@ -265,6 +311,7 @@ Un tableau par fonctionnalité
 |          Calcul du total           |                         *                         |                            Sous-total + taxe                            |
 
 #### Comportements spécifiques
+
 |                                   Scénario                                   | Compte(s) concerné(s) |                                                         Résultat Attendu                                                         |
 |:----------------------------------------------------------------------------:|:---------------------:|:--------------------------------------------------------------------------------------------------------------------------------:|
 |                               Accès à l'écran                                |        problem        |                       BUG : Accessible via URL directe (checkout-step-two.html) en contournant ClientInfo                        |
@@ -273,6 +320,7 @@ Un tableau par fonctionnalité
 | Manipulation LocalStorage<br>Panier contenant un ID dupliqué (ex: [0, 0, 4]) |           *           | BUG : L'item apparaît en double (2 cards distinctes), quantité affichée à 1 sur chacune plutôt qu'une seule card avec quantité 2 |
 
 #### Navigation
+
 |     Scénario      |          Compte(s) concerné(s)           |                          Résultat Attendu                          |
 |:-----------------:|:----------------------------------------:|:------------------------------------------------------------------:|
 | Clic sur "Cancel" |                    *                     |       Redirection vers Inventory, panier conservé (non vidé)       |
@@ -282,11 +330,13 @@ Un tableau par fonctionnalité
 ### CheckoutComplete
 
 #### Affichage de la confirmation
+
 |        Scénario         |          Compte(s) concerné(s)           |                                                     Résultat Attendu                                                     |
 |:-----------------------:|:----------------------------------------:|:------------------------------------------------------------------------------------------------------------------------:|
 | Message de confirmation | standard<br>performance_glitch<br>visual | "Thank you for your order!"<br>"Your order has been dispatched, and will arrive just as fast as the pony can get there!" |
 
 #### Génération du PDF
+
 |            Scénario            |          Compte(s) concerné(s)           |                                  Résultat Attendu                                   |
 |:------------------------------:|:----------------------------------------:|:-----------------------------------------------------------------------------------:|
 | Contenu du PDF : infos client  | standard<br>performance_glitch<br>visual | Prénom/Nom/Code Postal renseignés à l'étape CheckoutClientInfo présents dans le PDF |
@@ -294,21 +344,28 @@ Un tableau par fonctionnalité
 | Contenu du PDF : items et prix | standard<br>performance_glitch<br>visual | Liste des items, prix, sous-total, taxe (8% du ST), total cohérents avec l'Overview |
 
 #### Navigation
+
 |            Scénario            |          Compte(s) concerné(s)           |               Résultat Attendu                |
 |:------------------------------:|:----------------------------------------:|:---------------------------------------------:|
 | Chargement de CheckoutComplete | standard<br>performance_glitch<br>visual |      Le panier est vidé automatiquement       |
 |      Clic sur "Back Home"      | standard<br>performance_glitch<br>visual | Redirection vers Inventory (panier déjà vide) |
 
-Bon, on regroupe tout ce qu'on avait mis de côté pendant la session. Voici la structure proposée :
+#### Comportements spécifiques (accès sans parcours)
+
+|                                        Scénario                                         | Compte(s) concerné(s) |                                            Résultat Attendu                                            |
+|:---------------------------------------------------------------------------------------:|:---------------------:|:------------------------------------------------------------------------------------------------------:|
+| Accès direct à checkout-complete.html sans avoir suivi ClientInfo -> Overview -> Finish |           *           | BUG : Le bouton "Generate PDF order" n'est pas présent dans le DOM (aucune commande valide à imprimer) |
 
 ### Transverse
 
 #### Accès sans authentification
+
 |                      Scénario                      | Compte(s) concerné(s) |                                Résultat Attendu                                |
 |:--------------------------------------------------:|:---------------------:|:------------------------------------------------------------------------------:|
 | Accès direct à une URL protégée sans cookie d'auth |           *           | Redirection vers Login<br>You can only access '/X.html' when you are logged in |
 
 #### Menu burger
+
 |          Scénario           | Compte(s) concerné(s) |                   Résultat Attendu                    |
 |:---------------------------:|:---------------------:|:-----------------------------------------------------:|
 | Ouverture/fermeture du menu |           *           |               Sidebar s'ouvre/se ferme                |
@@ -317,6 +374,7 @@ Bon, on regroupe tout ce qu'on avait mis de côté pendant la session. Voici la 
 | Clic sur "Reset App State"  |           *           | Panier vidé, modifications utilisateur réinitialisées |
 
 #### Anomalies visuelles
+
 |       Élément affecté        | Compte(s) concerné(s) |                                 Résultat Attendu                                 |
 |:----------------------------:|:---------------------:|:--------------------------------------------------------------------------------:|
 |      Bouton menu burger      |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |
