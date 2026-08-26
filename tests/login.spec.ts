@@ -4,7 +4,7 @@ import {accounts, lockedOutUser} from "../fixtures/accounts";
 
 const unlockedAccounts = accounts.filter(acc => acc.id != 'lockedOut');
 
-test.describe('Authentification réussie', () => {
+test.describe('Authentification - Réussie', () => {
     for (const account of unlockedAccounts) {
         test(`Connexion avec le compte ${account.id}`, async ({page}) => {
             const loginPage = new LoginPage(page);
@@ -20,7 +20,7 @@ test.describe('Authentification réussie', () => {
     }
 });
 
-test.describe('Authentification échouée (compte bloqué)', () => {
+test.describe('Authentification - Échouée (compte bloqué)', () => {
     test(`Connexion avec le compte ${lockedOutUser.id}`, async ({page}) => {
         test.info().annotations.push({
             type: 'note',
