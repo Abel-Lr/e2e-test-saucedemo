@@ -26,3 +26,12 @@ export async function setupCheckoutCart(
 
     await page.goto('/checkout-step-one.html');
 }
+
+export async function setupOverviewCart(
+    page: Page,
+    account: Account,
+    itemIds: number[] = [0, 4]
+) {
+    await setupCheckoutCart(page, account, itemIds);
+    await page.goto('/checkout-step-two.html');
+}

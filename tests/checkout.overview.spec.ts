@@ -1,6 +1,6 @@
 import {test, expect} from "@playwright/test";
 import {CheckoutOverviewPage} from "../pages/CheckoutOverviewPage";
-import {accounts_to_test_overview, setupCheckoutCart} from "../fixtures/checkout";
+import {accounts_to_test_overview, setupOverviewCart} from "../fixtures/checkout";
 import {standardUser} from "../fixtures/accounts";
 import {products, TAX} from "../fixtures/products";
 import {extractAmount} from "../utils/parsing";
@@ -10,7 +10,7 @@ import {getRandomNumber, getRandomPick} from "../utils/random_pick";
 test.describe('Résumé de la commande - Affichage des items du panier', () => {
     test('affichage correct de 3 items distincts', async ({page}) => {
         const selectedProducts = [products[0], products[3], products[5]];
-        await setupCheckoutCart(page, standardUser, selectedProducts.map(p => p.id));
+        await setupOverviewCart(page, standardUser, selectedProducts.map(p => p.id));
 
         const checkoutOverviewPage = new CheckoutOverviewPage(page);
 
@@ -27,7 +27,7 @@ test.describe('Résumé de la commande - Affichage des items du panier', () => {
 test.describe('Résumé de la commande - Calculs des valeurs numériques', () => {
     const selectedProducts = [products[0], products[3], products[5]];
     test('sous-total, taxe et total corrects', async ({page}) => {
-        await setupCheckoutCart(page, standardUser, selectedProducts.map(p => p.id));
+        await setupOverviewCart(page, standardUser, selectedProducts.map(p => p.id));
 
         const checkoutOverviewPage = new CheckoutOverviewPage(page);
 
@@ -53,7 +53,7 @@ test.describe('Résumé de la commande - Calculs des valeurs numériques', () =>
 test.describe('Résumé de la commande - Comportements spécifiques (manipulation de LocalStorage)', () => {
     test('item dupliqué affiche quantité > 1', async ({page}) => {
         const duplicatedProduct = products[4];
-        await setupCheckoutCart(page, standardUser, [duplicatedProduct.id, duplicatedProduct.id]);
+        await setupOverviewCart(page, standardUser, [duplicatedProduct.id, duplicatedProduct.id]);
 
         const checkoutOverviewPage = new CheckoutOverviewPage(page);
         const card = checkoutOverviewPage.getItemCard(duplicatedProduct.name);
@@ -71,7 +71,7 @@ test.describe('Résumé de la commande - Exactitude du calcul sur sélection al�
         const count = getRandomNumber(1, products.length);
         const selectedProducts = getRandomPick(products, count);
 
-        await setupCheckoutCart(page, standardUser, selectedProducts.map(p => p.id));
+        await setupOverviewCart(page, standardUser, selectedProducts.map(p => p.id));
 
         const checkoutOverviewPage = new CheckoutOverviewPage(page);
 
@@ -97,7 +97,7 @@ test.describe('Résumé de la commande - Exactitude du calcul sur sélection al�
 test.describe('Résumé de commande - Navigation (Annuler / Confirmer)', () => {
     test('Annuler redirige vers Inventory sans vider le panier', async ({page}) => {
         const selectedProducts = [products[0], products[3], products[5]];
-        await setupCheckoutCart(page, standardUser, selectedProducts.map(p => p.id));
+        await setupOverviewCart(page, standardUser, selectedProducts.map(p => p.id));
 
         const checkoutOverviewPage = new CheckoutOverviewPage(page);
 
@@ -114,7 +114,7 @@ test.describe('Résumé de commande - Navigation (Annuler / Confirmer)', () => {
     for (const account of accounts_to_test_overview) {
         test(`${account.username} - 'Finish' redirige vers CheckoutComplete`, async ({page}) => {
             const selectedProducts = [products[0], products[3], products[5]];
-            await setupCheckoutCart(page, account, selectedProducts.map(p => p.id));
+            await setupOverviewCart(page, account, selectedProducts.map(p => p.id));
 
             const checkoutOverviewPage = new CheckoutOverviewPage(page);
             await checkoutOverviewPage.finishCheckout();
