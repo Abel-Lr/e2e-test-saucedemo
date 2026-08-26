@@ -1,5 +1,21 @@
 # Plan de tests E2E du site https://www.saucedemo.com
 
+## Table des matières
+
+- [Contexte et Périmètre](#contexte-et-périmètre)
+- [Priorisation des besoins](#priorisation-des-besoins)
+- [Données de test](#données-de-test)
+- [Matrice de traçabilité](#matrice-de-traçabilité)
+- [Scénarios détaillés par écran](#scénarios-détaillés-par-écran)
+    - [Login](#login)
+    - [Inventory](#inventory)
+    - [ItemDetail](#itemdetail)
+    - [Basket](#basket)
+    - [CheckoutClientInfo](#checkoutclientinfo)
+    - [CheckoutOverview](#checkoutoverview)
+    - [CheckoutComplete](#checkoutcomplete)
+    - [Transverse](#transverse)
+
 ## Contexte et Périmètre
 
 Le site sujet aux tests automatisés de bout en bout (E2E) est une plateforme d'e-commerce en ligne à l'
