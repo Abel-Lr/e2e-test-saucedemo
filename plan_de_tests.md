@@ -249,11 +249,12 @@ Un tableau par fonctionnalité
 
 #### Consultation du panier
 
-|               Scénario                | Compte(s) concerné(s) |                        Résultat Attendu                        |
-|:-------------------------------------:|:---------------------:|:--------------------------------------------------------------:|
-|     Affichage des items du panier     |           *           |          Données cohérentes avec les données de test           |
-|    Panier vide (aucun item ajouté)    |           *           |                 Aucun item affiché, écran vide                 |
-| Visualiser item ajouté via ID inconnu |           *           | BUG : Compteur incrémenté, mais aucun item affiché dans Basket |
+|                             Scénario                             | Compte(s) concerné(s) |                        Résultat Attendu                        |
+|:----------------------------------------------------------------:|:---------------------:|:--------------------------------------------------------------:|
+|                  Affichage des items du panier                   |           *           |          Données cohérentes avec les données de test           |
+|                 Panier vide (aucun item ajouté)                  |           *           |                 Aucun item affiché, écran vide                 |
+|              Visualiser item ajouté via ID inconnu               |           *           | BUG : Compteur incrémenté, mais aucun item affiché dans Basket |
+| LocalStorage contenant une valeur invalide/non-JSON (ex: "test") |           *           |                          Page blanche                          |
 
 #### Retrait d'un item
 
