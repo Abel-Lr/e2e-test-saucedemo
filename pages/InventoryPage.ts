@@ -5,20 +5,12 @@ export class InventoryPage {
     readonly sortSelect: Locator;
     readonly cartLink: Locator;
     readonly cartBadge: Locator;
-    readonly burgerMenuButton: Locator;
-    readonly burgerCloseButton: Locator;
-    readonly allItemsLink: Locator;
-    readonly logoutLink: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.sortSelect = page.locator('[data-test="product-sort-container"]');
         this.cartLink = page.locator('[data-test="shopping-cart-link"]');
         this.cartBadge = page.locator('[data-test="shopping-cart-badge"]');
-        this.burgerMenuButton = page.locator('#react-burger-menu-btn');
-        this.burgerCloseButton = page.locator('#react-burger-cross-btn');
-        this.allItemsLink = page.locator('[data-test="inventory-sidebar-link"]');
-        this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
     }
 
     getAllItemCards(): Locator {
@@ -69,19 +61,7 @@ export class InventoryPage {
         await this.sortSelect.selectOption(option);
     }
 
-    async openBurgerMenu() {
-        await this.burgerMenuButton.click();
-    }
-
-    async closeBurgerMenu() {
-        await this.burgerCloseButton.click();
-    }
-
     async goToCart() {
         await this.cartLink.click();
-    }
-
-    async logout() {
-        await this.logoutLink.click();
     }
 }

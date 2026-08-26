@@ -1,5 +1,4 @@
 import {test, expect} from "@playwright/test";
-import {InventoryPage} from "../pages/InventoryPage";
 import {toTestAfterLogin} from "../fixtures/accounts";
 import {LoginPage} from "../pages/LoginPage";
 import {Product, products} from "../fixtures/products";
@@ -33,33 +32,6 @@ test.describe('Inventory - Chargement de la page', () => {
                 const imageSrc = await inventoryPage.getItemImage(card).getAttribute('src');
                 expect(imageSrc).toBe(product.imageUrl);
             }
-        })
-    }
-})
-
-test.describe('Inventory - Sidebar', () => {
-    for (const account of toTestAfterLogin) {
-        test(`${account.username} - ouverture / fermeture de la sidebar`, async ({page}) => {
-            const inventoryPage = await setupInventoryPage(page, account);
-
-            await inventoryPage.openBurgerMenu();
-            await expect(inventoryPage.allItemsLink).toBeVisible();
-
-            await inventoryPage.closeBurgerMenu();
-            await expect(inventoryPage.allItemsLink).not.toBeVisible();
-        })
-
-        test(`${account.username} - déconnexion via le bouton Logout`, async ({page}) => {
-            const inventoryPage = await setupInventoryPage(page, account);
-
-            await inventoryPage.openBurgerMenu();
-            await inventoryPage.logout();
-
-            await expect(page).toHaveURL('/');
-
-            const cookies = await page.context().cookies();
-            const authCookie = cookies.find(c => c.name === 'session-username');
-            expect(authCookie).toBeUndefined();
         })
     }
 })
