@@ -1,6 +1,6 @@
 import {test, expect} from "@playwright/test";
 import {CheckoutClientInfoPage} from "../pages/CheckoutClientInfoPage";
-import {accounts_to_test_client_info, setupCheckoutCart} from "../fixtures/checkout";
+import {accounts_to_test, setupCheckoutCart} from "../fixtures/checkout";
 import {standardUser} from "../fixtures/accounts";
 
 type ValidationCase = {
@@ -52,7 +52,7 @@ test.describe('Remplissage des informations client - Validation croisée (tous c
     const firstName = 'Abel';
     const lastName = 'Laroussi';
     const zipCode = '69140';
-    for (const account of accounts_to_test_client_info) {
+    for (const account of accounts_to_test) {
         test(`${account.username} - saisie et validation du formulaire opérationnelle`, async ({page}) => {
             await setupCheckoutCart(page, account);
             const checkoutClientInfoPage = new CheckoutClientInfoPage(page);

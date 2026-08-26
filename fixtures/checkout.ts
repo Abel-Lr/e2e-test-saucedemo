@@ -1,8 +1,7 @@
 import {standardUser, problemUser, performanceGlitchUser, errorUser, visualUser, Account} from "./accounts";
 import {Page} from "@playwright/test";
 
-export const accounts_to_test_client_info: Account[] = [standardUser, problemUser, performanceGlitchUser, errorUser, visualUser];
-export const accounts_to_test_overview: Account[] = [standardUser, performanceGlitchUser, errorUser, visualUser];
+export const accounts_to_test: Account[] = [standardUser, problemUser, performanceGlitchUser, errorUser, visualUser];
 
 export async function setupCheckoutCart(
     page: Page,

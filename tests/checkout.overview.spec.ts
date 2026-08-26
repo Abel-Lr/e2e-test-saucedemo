@@ -1,6 +1,6 @@
 import {test, expect} from "@playwright/test";
 import {CheckoutOverviewPage} from "../pages/CheckoutOverviewPage";
-import {accounts_to_test_overview, setupOverviewCart} from "../fixtures/checkout";
+import {accounts_to_test, setupOverviewCart} from "../fixtures/checkout";
 import {standardUser} from "../fixtures/accounts";
 import {products, TAX} from "../fixtures/products";
 import {extractAmount} from "../utils/parsing";
@@ -66,32 +66,33 @@ test.describe('Résumé de la commande - Comportements spécifiques (manipulatio
     })
 })
 
-test.describe('Résumé de la commande - Exactitude du calcul sur sélection aléatoire', () => {
-    test('sous-total, taxe et total corrects avec sélection aléatoire', async ({page}) => {
-        const count = getRandomNumber(1, products.length);
-        const selectedProducts = getRandomPick(products, count);
+test.describe('Résumé de la commande - Exactitude du calcul sur sélection aléatoire pour tous les comptes', () => {
+    for (const account of accounts_to_test)
+        test(`${account.username} sous-total, taxe et total corrects avec sélection aléatoire`, async ({page}) => {
+            const count = getRandomNumber(1, products.length);
+            const selectedProducts = getRandomPick(products, count);
 
-        await setupOverviewCart(page, standardUser, selectedProducts.map(p => p.id));
+            await setupOverviewCart(page, account, selectedProducts.map(p => p.id));
 
-        const checkoutOverviewPage = new CheckoutOverviewPage(page);
+            const checkoutOverviewPage = new CheckoutOverviewPage(page);
 
-        const expectedSubTotal = selectedProducts.reduce((sum, p) => sum + p.price, 0);
-        const subtotalText = await checkoutOverviewPage.subtotal.textContent();
+            const expectedSubTotal = selectedProducts.reduce((sum, p) => sum + p.price, 0);
+            const subtotalText = await checkoutOverviewPage.subtotal.textContent();
 
-        const expectedTax = expectedSubTotal * TAX;
-        const taxText = await checkoutOverviewPage.tax.textContent();
+            const expectedTax = expectedSubTotal * TAX;
+            const taxText = await checkoutOverviewPage.tax.textContent();
 
-        const expectedTotal = expectedSubTotal + expectedTax;
-        const totalText = await checkoutOverviewPage.total.textContent();
+            const expectedTotal = expectedSubTotal + expectedTax;
+            const totalText = await checkoutOverviewPage.total.textContent();
 
-        if (!subtotalText) throw new Error('Sous-total introuvable');
-        if (!taxText) throw new Error('Taxe introuvable');
-        if (!totalText) throw new Error('Total introuvable');
+            if (!subtotalText) throw new Error('Sous-total introuvable');
+            if (!taxText) throw new Error('Taxe introuvable');
+            if (!totalText) throw new Error('Total introuvable');
 
-        expect(extractAmount(subtotalText)).toBeCloseTo(expectedSubTotal, 2);
-        expect(extractAmount(taxText)).toBeCloseTo(expectedTax, 2);
-        expect(extractAmount(totalText)).toBeCloseTo(expectedTotal, 2);
-    })
+            expect(extractAmount(subtotalText)).toBeCloseTo(expectedSubTotal, 2);
+            expect(extractAmount(taxText)).toBeCloseTo(expectedTax, 2);
+            expect(extractAmount(totalText)).toBeCloseTo(expectedTotal, 2);
+        })
 })
 
 test.describe('Résumé de commande - Navigation (Annuler / Confirmer)', () => {
@@ -111,7 +112,7 @@ test.describe('Résumé de commande - Navigation (Annuler / Confirmer)', () => {
         expect(cartAfterCancel).toBe(cartBeforeCancel);
     });
 
-    for (const account of accounts_to_test_overview) {
+    for (const account of accounts_to_test) {
         test(`${account.username} - 'Finish' redirige vers CheckoutComplete`, async ({page}) => {
             const selectedProducts = [products[0], products[3], products[5]];
             await setupOverviewCart(page, account, selectedProducts.map(p => p.id));
