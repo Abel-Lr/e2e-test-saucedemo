@@ -394,5 +394,5 @@ Un tableau par fonctionnalité
 |       Élément affecté        | Compte(s) concerné(s) |                                 Résultat Attendu                                 |
 |:----------------------------:|:---------------------:|:--------------------------------------------------------------------------------:|
 |      Bouton menu burger      |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |
-|     Items sur Inventory      |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |
 | Bouton "Checkout" sur Basket |        visual         | BUG : positionné en haut à droite au lieu d'en bas (classe `btn_visual_failure`) |
+|   Icône panier (Inventory)   |        visual         |                 BUG : rotation ~3deg (classe `.visual_failure`)                  |

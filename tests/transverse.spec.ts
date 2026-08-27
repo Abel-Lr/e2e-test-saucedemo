@@ -66,18 +66,15 @@ test.describe('Transverse - Anomalies visuelles', () => {
             await setupInventoryPage(page, account);
             const sidebarPage = new SidebarPage(page);
 
-            const transform = await sidebarPage.burgerMenuButton.evaluate((el) => getComputedStyle(el).transform);
+            const transform = await sidebarPage.burgerMenuIcon.evaluate((el) => getComputedStyle(el).transform);
             expect(transform).toBe('none');
         });
-        test(`${account.username} - items de la liste Inventory sans rotation`, async ({page}) => {
-            const inventoryPage = await setupInventoryPage(page, account);
-            const cards = inventoryPage.getAllItemCards();
-            const count = await cards.count();
+        test(`${account.username} - l'icône du panier sans rotation`, async ({page}) => {
+            await setupInventoryPage(page, account);
+            const sidebarPage = new SidebarPage(page);
 
-            for (let i = 0; i < count; i++) {
-                const transform = await cards.nth(i).evaluate((el) => getComputedStyle(el).transform);
-                expect(transform).toBe('none');
-            }
+            const transform = await sidebarPage.cartContainer.evaluate((el) => getComputedStyle(el).transform);
+            expect(transform).toBe('none');
         });
         test(`${account.username} - boutons de l'écran Basket bien positionnés`, async ({page}) => {
             const basketPage = await setupBasketPage(page, account);
